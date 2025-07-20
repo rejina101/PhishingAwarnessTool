@@ -22,9 +22,12 @@ PhishingAwarnessTool simulates a realistic login page (e.g., mimicking Gmail log
 
 The project includes:  
 
-- A login page (index.html) where users enter credentials.  
-- A redirect page (phished.html) indicating simulation status (you can customize this).  
-- A dashboard (progress.html) to view all stored login attempts with features like filtering by date/email, pagination, CSV export, and dark mode.  
+- A login page (index.html) where users enter credentials.
+  
+- A redirect page (phished.html) indicating simulation status (you can customize this).
+  
+- A dashboard (progress.html) to view all stored login attempts with features like filtering by date/email, pagination, CSV export, and dark mode.
+   
 - A CSS stylesheet (style.css) for consistent styling (optional for extra styling).
 
 Features:
@@ -42,41 +45,60 @@ Features:
 
 Technologies Used:
 
-- HTML5  
-- CSS3  
-- JavaScript (vanilla)  
-- Google Fonts (Roboto)  
+- HTML5
+  
+- CSS3
+  
+- JavaScript (vanilla)
+   
+- Google Fonts (Roboto)
+   
 - Browser localStorage for data persistence
 
 File Structure:
 
 PhishingAwarnessTool/
+
 ├── index.html Main phishing simulation login page
+
 ├── phished.html  Redirect page after login (simulation feedback)
+
 ├── progress.html  Dashboard displaying captured login attempts
+
 ├── style.css  Stylesheet for the project (optional)
+
 └── README.md  This file
+
+LICENSE.
 
  How It Works:
  
-1. User visits index.html, a fake login page designed to look like a familiar service (e.g., Gmail).  
-2. When the user submits the form, the entered email and password are saved locally along with the current timestamp and site identifier (Gmail) inside browse localStorage.  
-3. The user is then redirected to phished.html, which can show a message explaining the simulation or redirect elsewhere.  
-4. The dashboard (progress.html) reads from localStorage and displays all login attempts in a searchable, filterable, paginated table with options to export data or clear logs.  
+1. User visits index.html, a fake login page designed to look like a familiar service (e.g., Gmail).
+   
+2. When the user submits the form, the entered email and password are saved locally along with the current timestamp and site identifier (Gmail) inside browse localStorage.
+   
+3. The user is then redirected to phished.html, which can show a message explaining the simulation or redirect elsewhere.
+   
+4. The dashboard (progress.html) reads from localStorage and displays all login attempts in a searchable, filterable, paginated table with options to export data or clear logs.
+   
 5. The dashboard also supports dark mode toggling for comfortable viewing.
+   
 
 Installation & Usage:
 
 Setup:
 
-1. Clone or download the repository:  
+1. Clone or download the repository:
+   
    bash
    
    git clone https://github.com/rejina101/PhishingAwarnessTool.git
+   
    cd PhishingAwarnessTool
    
-3. Open index.html in any modern browser to start the phishing simulation.
-4.  Access progress.html to review the captured login attempts.
+2. Open index.html in any modern browser to start the phishing simulation.
+   
+3.  Access progress.html to review the captured login attempts.
 
 Dashboard Functionality (progress.html):
 
@@ -106,22 +128,27 @@ Remove all stored login attempts after a confirmation prompt.
 
 Security & Ethical Notice:
 
-⚠️ This project is intended only for educational and awareness purposes to help users understand phishing risks and improve cybersecurity practices.
-Never use this tool to collect real credentials without explicit consent. Misuse may violate laws and ethical guidelines.
+⚠️ This project is intended only for educational and awareness purposes to help users understand phishing risks and improve cybersecurity practices. Never use this tool to collect real credentials without explicit consent. Misuse may violate laws and ethical guidelines.
 Always use responsibly and inform participants clearly about the simulation.
 
 Future Improvements:
 
 Add more realistic UI and multiple phishing scenarios (e.g., Facebook, LinkedIn)
+
 Enhance dashboard with sorting and search highlighting
+
 Add date range filters (start & end date)
+
 Allow password masking and secure encryption of stored data
+
 Implement server-side storage with secure backend (optional)
+
 Add user analytics (most targeted email, frequency, etc.)
 
 Contributing:
 
 Contributions, suggestions, and improvements are welcome! Feel free to open issues or pull requests.
+
 Please keep contributions respectful and aligned with the project's educational intent
 
 License:
@@ -129,7 +156,9 @@ License:
 This project is licensed under the MIT License  see the LICENSE file for details.
 
 Thank you for checking out PhishingAwarnessTool!
+
 Feel free to reach out for questions or collaboration.
+
 Stay safe and cyber aware! 
 
 

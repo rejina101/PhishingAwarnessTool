@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign in – Gmail</title>
+
+  <!-- Google Roboto font for clean UI -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+  
+  <!-- External CSS file (if needed for future separation) -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Inline CSS for quick styling without modifying structure -->
+  <style>
+    /* Body layout and background */
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f1f5f9;
+      font-family: 'Roboto', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    /* Main container for form */
+    .container {
+      background: white;
+      padding: 35px 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    /* Gmail logo styling */
+    .logo {
+      height: 52px;
+      margin-bottom: 25px;
+    }
+
+    /* Heading: "Sign in" */
+    h2 {
+      margin-bottom: 8px;
+      font-size: 22px;
+      color: #202124;
+    }
+
+    /* Subtext: "to continue to Gmail" */
+    p {
+      margin-top: 0;
+      font-size: 14px;
+      color: #5f6368;
+    }
+
+    /* Input fields styling */
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    /* Submit/login button styling */
+    button {
+      background-color: #1a73e8;
+      color: white;
+      padding: 10px 20px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+      width: 100%;
+    }
+
+    /* Hover effect for button */
+    button:hover {
+      background-color: #185abc;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Main container wrapping the entire form -->
+  <div class="container">
+
+    <!-- Gmail icon/logo -->
+    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Gmail_Icon.png" 
+         alt="Gmail Logo" class="logo" />
+
+    <!-- Page heading -->
+    <h2>Sign in</h2>
+
+    <!-- Description below heading -->
+    <p>to continue to Gmail</p>
+
+    <!-- Form that simulates login and phishing -->
+    <form id="loginForm" action="phished.html" onsubmit="return simulatePhish();">
+      
+      <!-- Email input field -->
+      <input type="email" placeholder="Email or phone" id="email" required />
+
+      <!-- Password input field -->
+      <input type="password" placeholder="Enter your password" id="password" required />
+
+      <!-- Submit/Login button -->
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  <!-- JavaScript for handling the phishing simulation -->
+  <script>
+    /**
+     * Function to simulate phishing behavior when form submits.
+     * This stores the user input in localStorage and redirects them.
+     */
+    function simulatePhish() {
+      // Get entered email and password
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      // Create log object for this login attempt
+      const attempt = {
+        email: email,                          // User's email or phone
+        password: password,                    // User's password
+        time: new Date().toLocaleString(),     // Time of the attempt
+        site: "Gmail"                          // Tag for tracking which fake site
+      };
+
+      // Fetch existing logs or initialize an empty list
+      let logs = JSON.parse(localStorage.getItem('loginAttempts')) || [];
+
+      // Append the new login attempt
+      logs.push(attempt);
+
+      // Save back to localStorage
+      localStorage.setItem('loginAttempts', JSON.stringify(logs));
+
+      // Show phishing simulation warning
+      alert("⚠️ Warning: This is a phishing simulation. Redirecting to learn more...");
+
+      // Proceed to phished.html
+      return true;
+    }
+  </script>
+</body>
+</html>

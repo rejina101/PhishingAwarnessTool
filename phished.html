@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Phishing Alert</title>
+  <!-- Google Fonts for Roboto -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+  <style>
+    /* Body styles for background, max width, centering and box shadow */
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #fff5f5; /* light red background */
+      max-width: 600px;
+      margin: 60px auto; /* center with vertical spacing */
+      padding: 35px 40px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(217, 48, 37, 0.3); /* subtle red shadow */
+      color: #5f1a17; /* dark red text */
+      text-align: center;
+    }
+    /* Main heading styling */
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+      color: #d93025; /* bright red */
+    }
+    /* Paragraph general styling */
+    p {
+      font-size: 1.2rem;
+      margin: 15px 0 25px;
+      line-height: 1.6;
+      color: #5f1a17;
+    }
+    /* Unordered list style for bullet points */
+    ul {
+      list-style-type: disc;
+      text-align: left; /* left align bullet points */
+      padding-left: 25px;
+      margin: 25px 0;
+      color: #7f2a27;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+    /* Space between list items */
+    ul li {
+      margin-bottom: 14px;
+    }
+
+    /* Container holding the advice sentence + links, flex layout */
+    .advice {
+      font-size: 1.1rem;
+      margin-top: 30px;
+      color: #5f1a17;
+      display: flex; /* horizontal flex container */
+      flex-wrap: wrap; /* wrap on smaller screens */
+      justify-content: center; /* center content horizontally */
+      gap: 20px; /* space between items */
+      align-items: center; /* vertical alignment */
+    }
+
+    /* The static text before the links */
+    .advice-text {
+      white-space: nowrap; /* keep text on single line */
+      margin-right: 10px; /* spacing between text and first link */
+      font-weight: 600;
+    }
+
+    /* Different colored link styles for each link */
+
+    /* Blue link - Google brand blue */
+    .link-learn {
+      color: #1a73e8;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    /* Underline on hover for accessibility */
+    .link-learn:hover {
+      text-decoration: underline;
+    }
+
+    /* Green link - Google brand green */
+    .link-google {
+      color: #34a853;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .link-google:hover {
+      text-decoration: underline;
+    }
+
+    /* Yellow link - Google brand yellow */
+    .link-dashboard {
+      color: #fbbc04;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .link-dashboard:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive design adjustments for small screens */
+    @media (max-width: 480px) {
+      body {
+        margin: 30px 15px;
+        padding: 25px 20px;
+      }
+      h1 {
+        font-size: 2.2rem;
+      }
+      p, ul, .advice {
+        font-size: 1rem;
+      }
+      /* Stack advice content vertically on small screens */
+      .advice {
+        flex-direction: column;
+        gap: 12px;
+      }
+      /* Remove nowrap so text wraps normally on mobile */
+      .advice-text {
+        margin-right: 0;
+        white-space: normal;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Main heading -->
+  <h1>🚨 Phishing Simulation Complete</h1>
+  
+  <!-- Intro paragraph -->
+  <p>You just submitted credentials on a fake login page.</p>
+  
+  <!-- Important points about the phishing simulation -->
+  <ul>
+    <li>This was a <strong>safe simulation</strong> for educational purposes only.</li>
+    <li>Notice the <strong>wrong domain</strong> (gmali instead of gmail)?</li>
+    <li>The padlock was just an <strong>image</strong>, not real HTTPS.</li>
+  </ul>
+  
+  <!-- Advice and links container with horizontal layout -->
+  <div class="advice">
+    <!-- Static advice text with extra spacing at end -->
+    <span class="advice-text">Always check the URL, use password managers, and enable 2FA.&nbsp;&nbsp;</span>
+    <!-- Link to Google's official page about secure login practices -->
+    <a href="https://safety.google/authentication/" target="_blank" rel="noopener noreferrer" class="link-learn">
+      Learn about secure login practices ↗
+    </a>
+    <!-- Link to Google homepage -->
+    <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" class="link-google">
+      Go to Google Home
+    </a>
+    <!-- Link to the local phishing progress dashboard page -->
+    <a href="progress.html" class="link-dashboard">📊 View Login Attempts Dashboard</a>
+  </div>
+</body>
+</html>

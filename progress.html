@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login Attempts Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+  <style>
+    /* ==== Base Reset and Typography ==== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: #333;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    /* ==== Dark Mode Styles ==== */
+    body.dark {
+      background: #121212;
+      color: #eee;
+    }
+    body.dark .container {
+      background: #1e1e2f;
+    }
+    body.dark table {
+      color: #ddd;
+    }
+    body.dark thead {
+      background: #333;
+    }
+    body.dark tbody tr:nth-child(even) {
+      background-color: #2e2e3e;
+    }
+    body.dark tbody tr:hover {
+      background-color: #444;
+    }
+
+    /* ==== Container ==== */
+    .container {
+      background: #fff;
+      max-width: 1000px;
+      width: 100%;
+      border-radius: 15px;
+      padding: 30px 40px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ==== Title ==== */
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 2.2rem;
+    }
+
+    /* ==== Filter + Button Section ==== */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: space-between;
+      margin-bottom: 25px;
+    }
+
+    .filters > div {
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .filters input {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .filters button,
+    #darkToggle,
+    #exportBtn,
+    #clearLogsBtn {
+      margin-top: 10px;
+      padding: 10px 18px;
+      font-weight: bold;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+    }
+
+    #clearLogsBtn {
+      background-color: #d32f2f;
+      color: white;
+    }
+
+    #exportBtn {
+      background-color: #388e3c;
+      color: white;
+    }
+
+    #darkToggle {
+      background-color: #424242;
+      color: white;
+    }
+
+    .filters button:hover,
+    #clearLogsBtn:hover,
+    #exportBtn:hover,
+    #darkToggle:hover {
+      opacity: 0.9;
+    }
+
+    /* ==== Table ==== */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    thead {
+      background: linear-gradient(90deg, #3949ab, #5c6bc0);
+      color: #fff;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tbody tr:hover {
+      background-color: #e0e0ff;
+    }
+
+    /* ==== Pagination ==== */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .pagination button {
+      padding: 6px 12px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: none;
+      background: #3949ab;
+      color: white;
+      cursor: pointer;
+    }
+    .pagination button.active {
+      background: #222;
+    }
+
+    /* ==== Responsive ==== */
+    @media (max-width: 768px) {
+      .filters {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔐 Login Attempts Dashboard</h1>
+
+    <!-- Filters -->
+    <div class="filters">
+      <div>
+        <label>Date</label>
+        <input type="date" id="filterDate">
+      </div>
+      <div>
+        <label>Email</label>
+        <input type="text" id="filterEmail" placeholder="Search Email">
+      </div>
+      <div>
+        <button id="applyFiltersBtn">Apply Filters</button>
+        <button id="clearFiltersBtn">Clear Filters</button>
+      </div>
+      <div>
+        <button id="exportBtn">⬇ Export CSV</button>
+        <button id="darkToggle">🌙 Toggle Dark Mode</button>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Date & Time</th>
+          <th>Email</th>
+          <th>Password</th>
+          <th>Site</th>
+          <th>Copy</th>
+        </tr>
+      </thead>
+      <tbody id="logTableBody"></tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="pagination" id="pagination"></div>
+
+    <!-- Clear Logs -->
+    <button id="clearLogsBtn">🗑 Clear All Logs</button>
+  </div>
+
+  <script>
+    // Load logs from localStorage
+    const logs = JSON.parse(localStorage.getItem('loginAttempts')) || [];
+
+    // Variables for pagination
+    const itemsPerPage = 10;
+    let currentPage = 1;
+
+    // Toggle dark mode
+    document.getElementById("darkToggle").addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+    });
+
+    // Apply filters
+    document.getElementById("applyFiltersBtn").addEventListener("click", () => {
+      currentPage = 1;
+      loadLogs();
+    });
+
+    // Clear filters
+    document.getElementById("clearFiltersBtn").addEventListener("click", () => {
+      document.getElementById("filterDate").value = "";
+      document.getElementById("filterEmail").value = "";
+      loadLogs();
+    });
+
+    // Export to CSV
+    document.getElementById("exportBtn").addEventListener("click", () => {
+      const rows = [["#", "Date & Time", "Email", "Password", "Site"]];
+      const filtered = getFilteredLogs();
+      filtered.forEach((log, index) => {
+        rows.push([index + 1, log.time, log.email, log.password, log.site || "N/A"]);
+      });
+
+      const csv = rows.map(row => row.join(",")).join("\n");
+      const blob = new Blob([csv], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "login_attempts.csv";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+
+    // Clear logs
+    document.getElementById("clearLogsBtn").addEventListener("click", () => {
+      if (confirm("Are you sure?")) {
+        localStorage.removeItem("loginAttempts");
+        location.reload();
+      }
+    });
+
+    // Filter logs
+    function getFilteredLogs() {
+      const dateFilter = document.getElementById("filterDate").value;
+      const emailFilter = document.getElementById("filterEmail").value.trim().toLowerCase();
+
+      return logs.filter(log => {
+        const matchDate = dateFilter ? new Date(log.time).toISOString().split("T")[0] === dateFilter : true;
+        const matchEmail = emailFilter ? log.email.toLowerCase().includes(emailFilter) : true;
+        return matchDate && matchEmail;
+      });
+    }
+
+    // Load logs to table with pagination
+    function loadLogs() {
+      const tbody = document.getElementById("logTableBody");
+      const filtered = getFilteredLogs();
+      const start = (currentPage - 1) * itemsPerPage;
+      const paginated = filtered.slice(start, start + itemsPerPage);
+
+      if (paginated.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;">No login attempts found.</td></tr>`;
+        return;
+      }
+
+      let rows = "";
+      paginated.forEach((log, index) => {
+        rows += `
+          <tr>
+            <td>${start + index + 1}</td>
+            <td>${log.time}</td>
+            <td>${log.email}</td>
+            <td>${log.password}</td>
+            <td>${log.site || "N/A"}</td>
+            <td>
+              <button onclick="copyToClipboard('${log.password.replace(/'/g, "\\'")}')">Copy Password</button>
+              <button onclick="copyRow('${log.time}', '${log.email}', '${log.password}', '${log.site || "N/A"}')">Copy Row</button>
+            </td>
+          </tr>
+        `;
+      });
+      tbody.innerHTML = rows;
+
+      renderPagination(filtered.length);
+    }
+
+    // Render pagination buttons
+    function renderPagination(totalItems) {
+      const pageCount = Math.ceil(totalItems / itemsPerPage);
+      const pagination = document.getElementById("pagination");
+      pagination.innerHTML = "";
+
+      for (let i = 1; i <= pageCount; i++) {
+        const btn = document.createElement("button");
+        btn.textContent = i;
+        if (i === currentPage) btn.classList.add("active");
+        btn.addEventListener("click", () => {
+          currentPage = i;
+          loadLogs();
+        });
+        pagination.appendChild(btn);
+      }
+    }
+
+    // Copy password to clipboard
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => alert("Password copied!"));
+    }
+
+    // Copy row to clipboard
+    function copyRow(time, email, password, site) {
+      const text = `Date: ${time}, Email: ${email}, Password: ${password}, Site: ${site}`;
+      navigator.clipboard.writeText(text).then(() => alert("Row copied!"));
+    }
+
+    // Load logs on first render
+    loadLogs();
+  </script>
+</body>
+</html>
